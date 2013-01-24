@@ -1,0 +1,60 @@
+﻿using System.Collections.Generic;
+using NUnit.Framework;
+using WebApiExamples.Domain.CDCollection;
+using WebApiExamples.Services.CDCollection;
+
+namespace SpecsForDataServices.CDCollection
+{
+    [TestFixture]
+    public class When_using_the_ArtistDataService
+    {
+        public static readonly ArtistDataService ArtistDataService = new ArtistDataService();
+        public List<Artist> _artists;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _artists = SaveAndGet4InitialArtists();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            ClearOutAllArtists();
+        }
+
+        [Test]
+        public void _001_there_should_be_four_artists_in_the_database()
+        {
+            Assert.That(ArtistDataService.TotalCount, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void _010_when_we_clear_out_the_database_the_count_should_be_zero()
+        {
+            ArtistDataService.ClearAll();
+            Assert.That(ArtistDataService.TotalCount, Is.EqualTo(0));
+        }
+
+        private List<Artist> SaveAndGet4InitialArtists()
+        {
+            var michaelJackson = ArtistDataService.Create("Michael Jackson");
+            var ladyGaga = ArtistDataService.Create("Lady Gaga");
+            var eminem = ArtistDataService.Create("Eminem");
+            var clevelandOrchestra = ArtistDataService.Create("Cleveland Orchestra");
+            return new List<Artist>
+                       {
+                           michaelJackson,
+                           ladyGaga,
+                           eminem,
+                           clevelandOrchestra
+                       };
+        }
+
+        private void ClearOutAllArtists()
+        {
+            var artistDataService = new ArtistDataService();
+            artistDataService.ClearAll();
+        }
+    }
+}

@@ -11,8 +11,14 @@ namespace WebApiExamples.Services.CDCollection
     /// </summary>
     public class ArtistDataService
     {
-        private static Dictionary<int, Artist> ArtistDatabase = new Dictionary<int, Artist>();
+        private static Dictionary<int, Artist> ArtistDatabase;
+
         private static int NextId = 1;
+
+        static ArtistDataService()
+        {
+            InitializeDB();
+        }
 
         /// <summary>
         /// Creates a new Artist in the "DB" with a name of artistName and 
@@ -93,6 +99,24 @@ namespace WebApiExamples.Services.CDCollection
             return true;
         }
 
+        /// <summary>
+        /// Gets the total number of artists in the "DB"
+        /// </summary>
+        public int TotalCount { get { return ArtistDatabase.Count; } }
+
+        /// <summary>
+        /// Clears out all the records from the "DB"
+        /// </summary>
+        public void ClearAll()
+        {
+            InitializeDB();
+        }
+
+        private static void InitializeDB()
+        {
+            ArtistDatabase = new Dictionary<int, Artist>();
+        }
+
         private static void AddArtistToDB(Artist newArtist)
         {
             ArtistDatabase.Add(newArtist.Id, newArtist);
@@ -107,5 +131,6 @@ namespace WebApiExamples.Services.CDCollection
         {
             ArtistDatabase[artistId] = null;
         }
+        
     }
 }
