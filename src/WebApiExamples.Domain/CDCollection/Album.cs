@@ -11,7 +11,23 @@ namespace WebApiExamples.Domain.CDCollection
 
         public DateTime ReleaseDate { get; set; }
 
-        public List<Artist> Artists { get; set; }
+        public List<int> ArtistIds { get; set; }
+
+        public Album()
+        {
+            ArtistIds = new List<int>();
+        }
+
+        public Album(Album albumToCopy) : this()
+        {
+            Id = albumToCopy.Id;
+            Title = albumToCopy.Title;
+            ReleaseDate = albumToCopy.ReleaseDate;
+            foreach (var artistId in albumToCopy.ArtistIds)
+            {
+                ArtistIds.Add(artistId);
+            }
+        }
 
         protected bool Equals(Album other)
         {

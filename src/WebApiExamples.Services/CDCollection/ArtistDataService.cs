@@ -122,9 +122,9 @@ namespace WebApiExamples.Services.CDCollection
             ArtistDatabase.Add(newArtist.Id, newArtist);
         }
 
-        private static Artist UpdateArtistFromDBWith(Artist artistToUpdate)
+        private static void UpdateArtistFromDBWith(Artist artistToUpdate)
         {
-            return ArtistDatabase[artistToUpdate.Id] = artistToUpdate;
+            ArtistDatabase[artistToUpdate.Id] = artistToUpdate;
         }
 
         private static void WipeOutArtistFromDBWithId(int artistId)
