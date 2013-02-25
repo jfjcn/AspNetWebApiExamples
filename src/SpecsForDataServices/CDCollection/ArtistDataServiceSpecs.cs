@@ -30,7 +30,21 @@ namespace SpecsForDataServices.CDCollection
         }
 
         [Test]
-        public void _010_when_we_clear_out_the_database_the_count_should_be_zero()
+        public void _010_we_should_be_able_to_add_a_fifth_artists_into_the_database()
+        {
+            var prince = ArtistDataService.Create("Prince");
+            Assert.That(ArtistDataService.TotalCount, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void _020_we_should_be_able_to_find_an_artist_named_Eminem_into_the_database()
+        {
+            var eminem = ArtistDataService.Get("Eminem");
+            Assert.That(eminem, Is.Not.Null.Or.Empty);
+        }
+
+        [Test]
+        public void _100_when_we_clear_out_the_database_the_count_should_be_zero()
         {
             ArtistDataService.ClearAll();
             Assert.That(ArtistDataService.TotalCount, Is.EqualTo(0));

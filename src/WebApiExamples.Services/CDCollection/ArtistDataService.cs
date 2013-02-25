@@ -85,6 +85,20 @@ namespace WebApiExamples.Services.CDCollection
         }
 
         /// <summary>
+        /// Gets all the Artists form the DB
+        /// </summary>
+        /// <returns></returns>
+        public List<Artist> GetAll()
+        {
+            var copyOfAllArtists = new List<Artist>();
+            foreach (var artist in ArtistDatabase.Values)
+            {
+                copyOfAllArtists.Add(new Artist(artist));
+            }
+            return copyOfAllArtists;
+        }
+
+        /// <summary>
         /// Delete the Artist with Id artistId from the "DB"
         /// </summary>
         /// <param name="artistId"></param>
