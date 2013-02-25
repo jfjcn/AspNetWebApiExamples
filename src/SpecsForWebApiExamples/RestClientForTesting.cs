@@ -39,9 +39,9 @@ namespace SpecsForWebApiExamples
             return restClientReponse;
         }
 
-        public RestClientResponse<T> GetSingle(string resourceRelativePath, int id)
+        public RestClientResponse<T> GetSingle(string resourceRelativePath)
         {
-            HttpResponseMessage response = Client.GetAsync(resourceRelativePath + "/" + id).Result;  // Blocking call!
+            HttpResponseMessage response = Client.GetAsync(resourceRelativePath).Result;  // Blocking call!
             var restClientReponse = new RestClientResponse<T>();
             if (response.IsSuccessStatusCode)
             {

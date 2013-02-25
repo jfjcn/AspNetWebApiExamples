@@ -32,6 +32,12 @@ namespace WebApiExamples.Controllers
             return artists;
         }
 
+        public Artist GetByName(string artistName)
+        {
+            var matchingArtist = ArtistDataService.Get(artistName);
+            return matchingArtist;
+        }
+
         // POST api/artist
         public HttpResponseMessage PostProduct(Artist artist)
         {

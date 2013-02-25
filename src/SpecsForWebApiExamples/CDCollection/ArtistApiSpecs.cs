@@ -40,11 +40,12 @@ namespace SpecsForWebApiExamples.CDCollection
         {
             var response = _restClient.GetMany(ArtistRelativePath);
             var allArtists = response.ReturnedObject;
-            Assert.That(allArtists, Is.Null);
+            Assert.That(allArtists, Is.Not.Null);
+            Assert.That(allArtists.Count, Is.EqualTo(0));
         }
 
         [Test]
-        public void _010_we_should_be_able_to_add_an_artists_into_the_database()
+        public void _010_we_should_be_able_to_add_an_artist_named_Prince_into_the_database()
         {
             var prince = new Artist {Name = "Prince"};
             var response = _restClient.Post(ArtistRelativePath, prince);
@@ -53,10 +54,13 @@ namespace SpecsForWebApiExamples.CDCollection
         }
 
         [Test]
-        public void _020_we_should_be_able_to_find_an_artist_named_Eminem_into_the_database()
+        public void _020_we_should_be_able_to_find_an_artist_named_Prince_from_the_database()
         {
-//            var eminem = ArtistDataService.Get("Eminem");
-//            Assert.That(eminem, Is.Not.Null.Or.Empty);
+            var princesName = "Prince";
+            var response = _restClient.GetSingle(ArtistRelativePath + "?artistName=" + princesName);
+            var prince = response.ReturnedObject;
+            Assert.That(prince, Is.Not.Null);
+            Assert.That(prince.Name, Is.EqualTo(princesName));
         }
 
         [Test]
