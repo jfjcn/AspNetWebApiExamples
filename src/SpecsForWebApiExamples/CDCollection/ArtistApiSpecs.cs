@@ -19,12 +19,6 @@ namespace SpecsForWebApiExamples.CDCollection
             _restClient = new RestClientForTesting<Artist>(BaseUrl);
         }
 
-        [TestFixtureTearDown]
-        public static void TearDownForFixture()
-        {
-            ClearOutAllEntitiesInTheRemoteApi();
-        }
-
         [Test]
         public void _001_there_should_be_no_artists_in_the_database()
         {
