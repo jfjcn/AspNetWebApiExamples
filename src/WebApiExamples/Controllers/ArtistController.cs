@@ -32,18 +32,32 @@ namespace WebApiExamples.Controllers
         }
 
         // POST api/artist
-        public void Post([FromBody]string value)
+        public HttpResponseMessage PostProduct(Artist artist)
         {
+            var createdArtist = ArtistDataService.Create(artist.Name);
+
+            var response = Request.CreateResponse<Artist>(HttpStatusCode.Created, createdArtist);
+
+            string uri = Url.Link("DefaultApi", new { id = createdArtist.Id });
+            response.Headers.Location = new Uri(uri);
+            return response;
         }
 
         // PUT api/artist/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, Artist artistToUpdate)
         {
+            artistToUpdate.Id = id;
+            var successfullyUpdated = ArtistDataService.Update(artistToUpdate);
+            if(!successfullyUpdated)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
         }
 
         // DELETE api/artist/5
-        public void Delete(int id)
+        public void DeleteArtist(int id)
         {
+            ArtistDataService.Delete(id);
         }
     }
 }
