@@ -39,9 +39,9 @@ namespace SpecsForWebApiExamples
             return restClientReponse;
         }
 
-        public RestClientResponse<T> GetSingle(string resourceRelativePath)
+        public RestClientResponse<T> GetSingle(string resourceRelativePath, int id)
         {
-            HttpResponseMessage response = Client.GetAsync(resourceRelativePath).Result;  // Blocking call!
+            HttpResponseMessage response = Client.GetAsync(resourceRelativePath + "/" + id).Result;  // Blocking call!
             var restClientReponse = new RestClientResponse<T>();
             if (response.IsSuccessStatusCode)
             {
@@ -81,6 +81,18 @@ namespace SpecsForWebApiExamples
                 restClientReponse.HttpReasonPhrase = response.ReasonPhrase;
             }
             return restClientReponse;
+        }
+
+        public RestClientResponse Delete(string resourceRelativePath, int id)
+        {
+            var response = Client.DeleteAsync(resourceRelativePath + "/" + id).Result;
+            var restClientResponse =
+                new RestClientResponse
+                    {
+                        HttpStatusCode = (int) response.StatusCode,
+                        HttpReasonPhrase = response.ReasonPhrase
+                    };
+            return restClientResponse;
         }
     }
 
