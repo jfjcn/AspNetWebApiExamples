@@ -153,7 +153,7 @@ namespace WebApiExamples.Services.CDCollection
 
         private static void WipeOutAlbumFromDBWithId(int AlbumId)
         {
-            AlbumDatabase[AlbumId] = null;
+            AlbumDatabase.Remove(AlbumId);
         }
     }
 }
