@@ -17,7 +17,8 @@ namespace WebApiExamples.Controllers
         // GET api/artist
         public IEnumerable<Artist> GetAllArtists()
         {
-            return ArtistDataService.GetAll();
+            var allArtists = ArtistDataService.GetAll();
+            return allArtists;
         }
 
         // GET api/artist/5
