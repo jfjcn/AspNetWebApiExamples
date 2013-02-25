@@ -146,14 +146,14 @@ namespace WebApiExamples.Services.CDCollection
             AlbumDatabase.Add(newAlbum.Id, newAlbum);
         }
 
-        private static void UpdateAlbumFromDBWith(Album AlbumToUpdate)
+        private static void UpdateAlbumFromDBWith(Album albumToUpdate)
         {
-            AlbumDatabase[AlbumToUpdate.Id] = AlbumToUpdate;
+            AlbumDatabase[albumToUpdate.Id] = albumToUpdate;
         }
 
-        private static void WipeOutAlbumFromDBWithId(int AlbumId)
+        private static void WipeOutAlbumFromDBWithId(int albumId)
         {
-            AlbumDatabase.Remove(AlbumId);
+            AlbumDatabase.Remove(albumId);
         }
     }
 }
