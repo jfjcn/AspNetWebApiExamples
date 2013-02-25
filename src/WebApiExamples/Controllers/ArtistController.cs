@@ -22,7 +22,7 @@ namespace WebApiExamples.Controllers
         }
 
         // GET api/artist/5
-        public Artist Get(int id)
+        public Artist GetById(int id)
         {
             var artists = ArtistDataService.Get(id);
             if (artists == null)

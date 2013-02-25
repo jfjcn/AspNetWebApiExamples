@@ -22,17 +22,7 @@ namespace SpecsForWebApiExamples.CDCollection
         [TestFixtureTearDown]
         public static void TearDownForFixture()
         {
-            var response = _restClient.GetMany(ArtistRelativePath);
-            var allArtists = response.ReturnedObject;
-            if(allArtists == null)
-            {
-                return;
-            }
-            foreach (var artist in allArtists)
-            {
-                var deleteResponse = _restClient.Delete(ArtistRelativePath, artist.Id);
-                Assert.That(deleteResponse, Is.Not.Null);
-            }
+            ClearOutAllEntitiesInTheRemoteApi();
         }
 
         [Test]
@@ -45,7 +35,7 @@ namespace SpecsForWebApiExamples.CDCollection
         }
 
         [Test]
-        public void _010_we_should_be_able_to_add_an_artist_named_Prince_into_the_database()
+        public void _010_we_should_be_able_to_add_an_artist_named_Prince_into_our_API()
         {
             var prince = new Artist {Name = "Prince"};
             var response = _restClient.Post(ArtistRelativePath, prince);
@@ -54,7 +44,7 @@ namespace SpecsForWebApiExamples.CDCollection
         }
 
         [Test]
-        public void _020_we_should_be_able_to_find_an_artist_named_Prince_from_the_database()
+        public void _020_we_should_be_able_to_find_an_artist_named_Prince_into_our_API()
         {
             var princesName = "Prince";
             var response = _restClient.GetSingle(ArtistRelativePath + "?artistName=" + princesName);
@@ -64,31 +54,44 @@ namespace SpecsForWebApiExamples.CDCollection
         }
 
         [Test]
-        public void _100_when_we_clear_out_the_database_the_count_should_be_zero()
+        public void _030_we_should_be_able_to_rename_Prince_to_the_artist_in_our_API()
         {
-//            ArtistDataService.ClearAll();
-//            Assert.That(ArtistDataService.TotalCount, Is.EqualTo(0));
+            var princesName = "Prince";
+            var response = _restClient.GetSingle(ArtistRelativePath + "?artistName=" + princesName);
+            var prince = response.ReturnedObject;
+            Assert.That(prince, Is.Not.Null);
+            Assert.That(prince.Name, Is.EqualTo(princesName));
+
+            var princesNewName = "The Artist";
+            prince.Name = princesNewName;
+            var secondResponse = _restClient.Put(ArtistRelativePath + "/" + prince.Id, prince);
+
+            var thirdResponse = _restClient.GetSingle(ArtistRelativePath + "/" + prince.Id);
+            var newlyUpdatedPrince = thirdResponse.ReturnedObject;
+            Assert.That(newlyUpdatedPrince, Is.Not.Null);
+            Assert.That(newlyUpdatedPrince.Name, Is.EqualTo(princesNewName));
+
         }
 
-//        private List<Artist> SaveAndGet4InitialArtists()
-//        {
-//            var michaelJackson = ArtistDataService.Create("Michael Jackson");
-//            var ladyGaga = ArtistDataService.Create("Lady Gaga");
-//            var eminem = ArtistDataService.Create("Eminem");
-//            var clevelandOrchestra = ArtistDataService.Create("Cleveland Orchestra");
-//            return new List<Artist>
-//                       {
-//                           michaelJackson,
-//                           ladyGaga,
-//                           eminem,
-//                           clevelandOrchestra
-//                       };
-//        }
-
-        private void ClearOutAllArtists()
+        [Test]
+        public void _100_when_we_clear_out_the_database_the_count_should_be_zero()
         {
-//            var artistDataService = new ArtistDataService();
-//            artistDataService.ClearAll();
+            ClearOutAllEntitiesInTheRemoteApi();
+        }
+
+        private static void ClearOutAllEntitiesInTheRemoteApi()
+        {
+            var response = _restClient.GetMany(ArtistRelativePath);
+            var allArtists = response.ReturnedObject;
+            if (allArtists == null)
+            {
+                return;
+            }
+            foreach (var artist in allArtists)
+            {
+                var deleteResponse = _restClient.Delete(ArtistRelativePath, artist.Id);
+                Assert.That(deleteResponse, Is.Not.Null);
+            }
         }
     }
 }

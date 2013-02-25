@@ -83,6 +83,24 @@ namespace SpecsForWebApiExamples
             return restClientReponse;
         }
 
+        public RestClientResponse Put(string resourceRelativePath, T resouceToUpdate)
+        {
+            var response = Client.PutAsJsonAsync(resourceRelativePath, resouceToUpdate).Result;
+            var restClientReponse = new RestClientResponse();
+            if (response.IsSuccessStatusCode)
+            {
+                restClientReponse.Success = true;
+            }
+            else
+            {
+                restClientReponse.Success = false;
+                restClientReponse.HttpStatusCode = (int)response.StatusCode;
+                restClientReponse.HttpReasonPhrase = response.ReasonPhrase;
+            }
+            return restClientReponse;
+        }
+
+
         public RestClientResponse Delete(string resourceRelativePath, int id)
         {
             var response = Client.DeleteAsync(resourceRelativePath + "/" + id).Result;
