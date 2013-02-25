@@ -4,21 +4,30 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApiExamples.Domain.CDCollection;
+using WebApiExamples.Services.CDCollection;
 
 namespace WebApiExamples.Controllers
 {
     public class AlbumController : ApiController
     {
-        // GET api/cd
-        public IEnumerable<string> Get()
+        protected AlbumDataService  AlbumDataService = new AlbumDataService();
+
+        // GET api/album/
+        public IEnumerable<Album> GetAllAlbums()
         {
-            return new string[] { "value1", "value2" };
+            return AlbumDataService.GetAll();
         }
 
-        // GET api/cd/5
-        public string Get(int id)
+        // GET api/album/5
+        public Album Get(int id)
         {
-            return "value";
+            var album = AlbumDataService.Get(id);
+            if (album == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            return album;
         }
 
         // POST api/cd

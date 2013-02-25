@@ -95,6 +95,20 @@ namespace WebApiExamples.Services.CDCollection
         }
 
         /// <summary>
+        /// Gets all the Albums form the DB
+        /// </summary>
+        /// <returns></returns>
+        public List<Album> GetAll()
+        {
+            var copyOfAllAlbums = new List<Album>();
+            foreach (var albumToCopy in AlbumDatabase.Values)
+            {
+                copyOfAllAlbums.Add(new Album(albumToCopy));
+            }
+            return copyOfAllAlbums;
+        }
+
+        /// <summary>
         /// Delete the Album with Id albumId from the "DB"
         /// </summary>
         /// <param name="albumId"></param>

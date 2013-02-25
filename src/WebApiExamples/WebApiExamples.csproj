@@ -240,6 +240,16 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebApiExamples.Domain\WebApiExamples.Domain.csproj">
+      <Project>{942C22AD-F72A-4F32-A1D1-39AA887A481C}</Project>
+      <Name>WebApiExamples.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApiExamples.Services\WebApiExamples.Services.csproj">
+      <Project>{F744EDB2-D500-404D-99A4-DEA58FB4139F}</Project>
+      <Name>WebApiExamples.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
