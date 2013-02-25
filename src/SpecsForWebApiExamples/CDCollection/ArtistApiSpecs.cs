@@ -9,7 +9,7 @@ namespace SpecsForWebApiExamples.CDCollection
     {
 
         protected List<Artist> _artists;
-        protected static RestClientForTesting<Artist> _restClient; 
+        protected static RestClientForTesting<Artist> _restClient;
         protected static readonly string BaseUrl = @"http://localhost:4848/api/";
         protected static readonly string ArtistRelativePath = @"artist";
 
@@ -20,7 +20,7 @@ namespace SpecsForWebApiExamples.CDCollection
         }
 
         [Test]
-        public void _001_there_should_be_no_artists_in_the_database()
+        public void _001_there_should_be_no_artists_in_the_API()
         {
             var response = _restClient.GetMany(ArtistRelativePath);
             var allArtists = response.ReturnedObject;
@@ -29,9 +29,9 @@ namespace SpecsForWebApiExamples.CDCollection
         }
 
         [Test]
-        public void _010_we_should_be_able_to_add_an_artist_named_Prince_into_our_API()
+        public void _010_we_should_be_able_to_add_an_artist_named_Prince_from_our_API()
         {
-            var prince = new Artist {Name = "Prince"};
+            var prince = new Artist { Name = "Prince" };
             var response = _restClient.Post(ArtistRelativePath, prince);
             Assert.That(response.Success, Is.True);
             Assert.That(response.ResourceUri, Is.Not.Null);
@@ -71,6 +71,32 @@ namespace SpecsForWebApiExamples.CDCollection
         public void _100_when_we_clear_out_the_database_the_count_should_be_zero()
         {
             ClearOutAllEntitiesInTheRemoteApi();
+        }
+
+        [Test]
+        [Ignore]
+        public void _500_we_should_be_able_to_add_a_few_artists_into_our_API()
+        {
+            var newArtist = new Artist { Name = "Prince" };
+            var response = _restClient.Post(ArtistRelativePath, newArtist);
+            Assert.That(response.Success, Is.True);
+            Assert.That(response.ResourceUri, Is.Not.Null);
+
+            newArtist = new Artist { Name = "U2" };
+            response = _restClient.Post(ArtistRelativePath, newArtist);
+            Assert.That(response.Success, Is.True);
+            Assert.That(response.ResourceUri, Is.Not.Null);
+
+            newArtist = new Artist { Name = "Snoop Lion" };
+            response = _restClient.Post(ArtistRelativePath, newArtist);
+            Assert.That(response.Success, Is.True);
+            Assert.That(response.ResourceUri, Is.Not.Null);
+
+            newArtist = new Artist { Name = "Nirvana" };
+            response = _restClient.Post(ArtistRelativePath, newArtist);
+            Assert.That(response.Success, Is.True);
+            Assert.That(response.ResourceUri, Is.Not.Null);
+
         }
 
         private static void ClearOutAllEntitiesInTheRemoteApi()

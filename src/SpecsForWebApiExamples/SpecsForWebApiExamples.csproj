@@ -43,6 +43,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CDCollection\AlbumSpecs.cs" />
     <Compile Include="CDCollection\ArtistApiSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestClientForTesting.cs" />

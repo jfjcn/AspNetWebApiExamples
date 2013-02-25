@@ -16,11 +16,12 @@ namespace WebApiExamples.Controllers
         // GET api/album/
         public IEnumerable<Album> GetAllAlbums()
         {
-            return AlbumDataService.GetAll();
+            var allAlbums = AlbumDataService.GetAll();
+            return allAlbums;
         }
 
         // GET api/album/5
-        public Album Get(int id)
+        public Album GetById(int id)
         {
             var album = AlbumDataService.Get(id);
             if (album == null)
@@ -30,19 +31,42 @@ namespace WebApiExamples.Controllers
             return album;
         }
 
-        // POST api/cd
-        public void Post([FromBody]string value)
+        public Album GetByTitle(string albumTitle)
         {
+            var matchingArtist = AlbumDataService.Get(albumTitle);
+            return matchingArtist;
         }
 
-        // PUT api/cd/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage PostAlbum(Album albumToCreate)
         {
+            var createdAlbum =
+                AlbumDataService.Create(
+                    albumToCreate.Title,
+                    albumToCreate.ReleaseDate,
+                    albumToCreate.ArtistIds);
+
+            var response = Request.CreateResponse(HttpStatusCode.Created, createdAlbum);
+
+            string uri = Url.Link("DefaultApi", new { id = createdAlbum.Id });
+            response.Headers.Location = new Uri(uri);
+            return response;
         }
 
-        // DELETE api/cd/5
-        public void Delete(int id)
+        // PUT http://localhost:4848/api/album/5
+        public void PutAlbum(int id, Album albumToUpdate)
         {
+            albumToUpdate.Id = id;
+            var successfullyUpdated = AlbumDataService.Update(albumToUpdate);
+            if (!successfullyUpdated)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
+
+        // DELETE http://localhost:4848/api/album/5
+        public void DeleteAlbum(int id)
+        {
+            AlbumDataService.Delete(id);
         }
     }
 }
